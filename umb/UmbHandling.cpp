@@ -36,7 +36,9 @@ int UmbHandling::testChannelQuery(serial& serialPort) {
 
 	Routine23Query::prepareQuery(0x64, 1, 8, &f);
 	serialPort.transmitUmb(&f);
+	serialPort.receiveUmb(2);
 
+	return 0;
 }
 
 UmbHandling::~UmbHandling() {

@@ -27,6 +27,8 @@
 
 #define MASTER_ID 0x01
 
+using namespace std;
+
 serial::serial() {
 	// TODO Auto-generated constructor stubes
 }
@@ -86,7 +88,7 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	rx->push_back(rx_buf);
 	pos = 2;
 
-	for (pos; pos <= 7; pos++)
+	for (; pos <= 7; pos++)
 	{
 		gettimeofday(&timeout, NULL);
 		if (timeout.tv_sec - timeout_start.tv_sec > 2)
@@ -100,9 +102,9 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	}
 
 	ln_rcv = rx_buf;
-	ln_rcv += 4;
+	ln_rcv += 12;
 
-	for (pos; pos <= ln_rcv; pos++) {
+	for (; pos <= ln_rcv; pos++) {
 		gettimeofday(&timeout, NULL);
 		if (timeout.tv_sec - timeout_start.tv_sec > 2)
 			throw TimeoutE();		//TODO: zrobić rzucanie wyjątku
@@ -113,6 +115,31 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 		else
 			throw TimeoutE();
 	}
+
+	uint8_t *data = rx->data();
+
+	UmbFrameRaw *out = new UmbFrameRaw();
+	memset(out, 0, sizeof(UmbFrameRaw));
+
+	out->ln = ln_rcv - 12;
+	out->bytesRxed = rx->size();
+	out->cmdId = *(data + 8);
+	out->content = new unsigned char[out->ln - 2];
+	memset (out->content, 0x00, out->ln - 2);
+	memcpy(out->content, data + 10, out->ln -2);
+
+	out->slaveId = *(data + 4);
+	out->slaveClass = *(data + 5) >> 4;
+	out->protVersion = *(data + 1);
+
+	out->checksum = *(data +  out->bytesRxed - 3) | *(data +  out->bytesRxed - 2) << 8;
+
+	unsigned short crc = 0xFFFF;
+
+	for (int j = 0; j < (out->bytesRxed - 3); j++)
+		crc = calc_crc(crc, *(data + j));
+
+	return 0;
 
 }
 
@@ -138,44 +165,24 @@ void serial::init(string port)
 	tty_old = tty;
 
 	/* Set Baud Rate */
+
+	tty.c_iflag &= ~(IMAXBEL|IXOFF|INPCK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL|IXON|IGNPAR);
+	tty.c_iflag |= IGNBRK;
+
+	tty.c_oflag &= ~OPOST;
+	tty.c_oflag &= ~CRTSCTS;
+
+	tty.c_lflag &= ~(ECHO|ECHOE|ECHOK|ECHONL|ICANON|ISIG|IEXTEN|NOFLSH|TOSTOP|PENDIN);
+	tty.c_cflag &= ~(CSIZE|PARENB);
+	tty.c_cflag |= CS8|CREAD;
+	tty.c_cc[VMIN] = 0;		// bylo 80
+	tty.c_cc[VTIME] = 3;		// byo 3
+
 	cfsetospeed (&tty, (speed_t)B19200);
 	cfsetispeed (&tty, (speed_t)B19200);
 
-	/* Setting other Port Stuff */
-	tty.c_cflag     &=  ~PARENB;            // Make 8n1
-	tty.c_cflag     &=  ~CSTOPB;
-	tty.c_cflag     &=  ~CSIZE;
-	tty.c_cflag		&=  ~ICANON;
-	tty.c_cflag     |=  CS8;
-
-	tty.c_cflag     &=  ~CRTSCTS;           // no flow control
-	tty.c_cc[VMIN]   =  0;                  // read doesn't block
-	tty.c_cc[VTIME]  =  9;                  // 0.5 seconds read timeout
-	tty.c_cflag     |=  CREAD | CLOCAL;     // turn on READ & ignore ctrl lines
-
-	tty.c_iflag = 0;
-	tty.c_oflag = 0;
-
-	tty.c_cc[VINTR]    = 0;     /* Ctrl-c */
-	tty.c_cc[VQUIT]    = 0;     /* Ctrl-\ */
-	tty.c_cc[VERASE]   = 0;     /* del */
-	tty.c_cc[VKILL]    = 0;     /* @ */
-	tty.c_cc[VEOF]     = 4;     /* Ctrl-d */
-	tty.c_cc[VTIME]    = 0;     /* inter-character timer unused */
-	tty.c_cc[VMIN]     = 1;     /* blocking read until 1 character arrives */
-	tty.c_cc[VSWTC]    = 0;     /* '\0' */
-	tty.c_cc[VSTART]   = 0;     /* Ctrl-q */
-	tty.c_cc[VSTOP]    = 0;     /* Ctrl-s */
-	tty.c_cc[VSUSP]    = 0;     /* Ctrl-z */
-	tty.c_cc[VEOL]     = 0;     /* '\0' */
-	tty.c_cc[VREPRINT] = 0;     /* Ctrl-r */
-	tty.c_cc[VDISCARD] = 0;     /* Ctrl-u */
-	tty.c_cc[VWERASE]  = 0;     /* Ctrl-w */
-	tty.c_cc[VLNEXT]   = 0;     /* Ctrl-v */
-	tty.c_cc[VEOL2]    = 0;     /* '\0' */
-
 	/* Make raw */
-	cfmakeraw(&tty);
+//	cfmakeraw(&tty);
 
 	/* Flush Port, then applies attributes */
 	tcflush( handle, TCIFLUSH );

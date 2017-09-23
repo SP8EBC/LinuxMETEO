@@ -15,7 +15,8 @@ struct UmbFrameRaw {
 	unsigned char slaveId;
 	unsigned char slaveClass;
 
-	unsigned char ln;
+	unsigned char ln;		// LN pomiędzy STX i ETX zgodnie ze standardem
+	unsigned char bytesRxed;
 
 	unsigned char cmdId;
 
@@ -23,7 +24,7 @@ struct UmbFrameRaw {
 
 	unsigned short checksum;
 
-	unsigned char status;
+
 };
 
 

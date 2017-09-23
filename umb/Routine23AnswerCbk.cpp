@@ -40,7 +40,7 @@ void* Routine23AnswerCbk::parseAnswer(UmbFrameRaw* in)
 	else
 	{
 		unsigned char* content = in->content;
-		in->status = *content;
+//		in->status = *content;
 
 		unsigned short channelNumber = ( *(in->content + 1) | *(in->content + 2) << 8);
 		unsigned char channelType = *(in->content + 3);
