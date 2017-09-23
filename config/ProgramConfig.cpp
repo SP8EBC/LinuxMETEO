@@ -20,6 +20,7 @@ bool ProgramConfig::lonwe;
 string ProgramConfig::comport;
 string ProgramConfig::outputAprxFile;
 unsigned char ProgramConfig::devicesNumber;
+int ProgramConfig::masterId;
 vector<UmbDevice> ProgramConfig::devices;
 
 using namespace libconfig;
@@ -66,12 +67,20 @@ unsigned char ProgramConfig::getDevicesNumber() {
 	return devicesNumber;
 }
 
+int ProgramConfig::getMasterId() {
+	return masterId;
+}
+
+void ProgramConfig::setMasterId(int masterId) {
+	ProgramConfig::masterId = masterId;
+}
+
 void ProgramConfig::setDevicesNumber(unsigned char devicesNumber) {
 	ProgramConfig::devicesNumber = devicesNumber;
 }
 
 void ProgramConfig::setOutputAprxFile(const string& outputAprxFile) {
-	this->outputAprxFile = outputAprxFile;
+	ProgramConfig::outputAprxFile = outputAprxFile;
 }
 
 string ProgramConfig::getLonwe() {
@@ -107,6 +116,7 @@ int ProgramConfig::readConfigFromFile() {
 
 	cLibConfig.lookupValue("ComPort", comport);
 	cLibConfig.lookupValue("OutputAprxFile", outputAprxFile);
+	cLibConfig.lookupValue("MasterId", masterId);
 
 	Setting &Devs = rRoot["Devices"];
 	devicesNumber = Devs.getLength();

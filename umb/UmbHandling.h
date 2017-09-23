@@ -8,6 +8,8 @@
 #ifndef UMB_UMBHANDLING_H_
 #define UMB_UMBHANDLING_H_
 
+#include "../serial/serial.h"
+
 enum CommState {
 	IDLE = 0,
 	RXING = 1,
@@ -19,6 +21,9 @@ class UmbHandling {
 private:
 
 public:
+	static int checkStatus(unsigned short deviceId, unsigned short deviceClass, serial& serialPort);
+	static int testChannelQuery(serial& serialPort);
+
 	UmbHandling();
 	virtual ~UmbHandling();
 };

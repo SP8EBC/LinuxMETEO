@@ -19,7 +19,7 @@ struct UmbFrameRaw {
 
 	unsigned char cmdId;
 
-	unsigned char *content;
+	unsigned char *content;		// payload
 
 	unsigned short checksum;
 

@@ -24,6 +24,7 @@ private:
 	static string outputAprxFile;
 
 	static unsigned char devicesNumber;
+	static int masterId;
 
 	static vector<UmbDevice> devices;
 
@@ -39,9 +40,11 @@ public:
 	static string getLatns();
 	static string getLonwe();
 	static const string& getOutputAprxFile();
-	void setOutputAprxFile(const string& outputAprxFile);
+	static void setOutputAprxFile(const string& outputAprxFile);
 	static unsigned char getDevicesNumber();
 	static void setDevicesNumber(unsigned char devicesNumber);
+	static int getMasterId();
+	static void setMasterId( int masterId);
 };
 
 #endif /* CONFIG_PROGRAMCONFIG_H_ */
