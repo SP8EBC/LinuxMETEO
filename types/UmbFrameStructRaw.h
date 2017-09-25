@@ -22,7 +22,8 @@ struct UmbFrameRaw {
 
 	unsigned char *content;		// payload
 
-	unsigned short checksum;
+	unsigned short checksumRxed;
+	bool chceksumCorrectRX;
 
 
 };

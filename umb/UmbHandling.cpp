@@ -8,9 +8,15 @@
 #include "UmbHandling.h"
 #include "Routine26Query.h"
 #include "Routine23Query.h"
+#include "Routine26AnswerCbk.h"
+#include "Routine23AnswerCbk.h"
 #include "../types/UmbFrameStructRaw.h"
+#include "../types/ChannelValueFoundation.h"
+#include "../types/Float.h"
 
 #include <string>
+#include <iostream>
+#include <stdint.h>
 
 UmbHandling::UmbHandling() {
 	// TODO Auto-generated constructor stub
@@ -19,26 +25,51 @@ UmbHandling::UmbHandling() {
 
 int UmbHandling::checkStatus(unsigned short deviceId, unsigned short deviceClass, serial& serialPort) {
 
-	UmbFrameRaw f;
+	UmbFrameRaw f, *o;
 	memset (&f, 0x00, sizeof(f));
 
 	Routine26Query::prepareQuery(deviceId, deviceClass, &f);
 	serialPort.transmitUmb(&f);
-	serialPort.receiveUmb(2);
+	o = serialPort.receiveUmb(2);
+	uint8_t s = Routine26AnswerCbk::parseAnswer(o);
+	printf("status: %d", s);
 
 
 	return 0;
 }
 
 int UmbHandling::testChannelQuery(serial& serialPort) {
-	UmbFrameRaw f;
+	UmbFrameRaw f, *o;
 	memset (&f, 0x00, sizeof(f));
 
 	Routine23Query::prepareQuery(0x64, 1, 8, &f);
 	serialPort.transmitUmb(&f);
-	serialPort.receiveUmb(2);
+	o = serialPort.receiveUmb(2);
+	ChannelValueFoundation *ch = (ChannelValueFoundation*)Routine23AnswerCbk::parseAnswer(o);
+
+	Float *fl = (Float*)ch;
+	std::cout << "temperatura: " << fl->toString() << endl;
+
+	delete o;
+	delete ch;
 
 	return 0;
+}
+
+ChannelValueFoundation*  UmbHandling::channelQuery(unsigned short deviceId,
+													unsigned short deviceClass, unsigned short channelNumber,
+													serial& serialPort)
+{
+	UmbFrameRaw f, *o;
+
+	Routine23Query::prepareQuery(channelNumber, deviceId, deviceClass, &f);
+	serialPort.transmitUmb(&f);
+	o = serialPort.receiveUmb(2);
+	ChannelValueFoundation *ch = (ChannelValueFoundation*)Routine23AnswerCbk::parseAnswer(o);
+
+	delete o;
+
+	return ch;
 }
 
 UmbHandling::~UmbHandling() {

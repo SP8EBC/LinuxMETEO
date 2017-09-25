@@ -58,8 +58,8 @@ BOOST_AUTO_TEST_CASE(f)
 
 	ChannelValueFoundation* o = (ChannelValueFoundation*)Routine23AnswerCbk::parseAnswer(&f);
 
-	BOOST_CHECK_EQUAL( ((Float*)o)->toString(), "10.4323");
-	BOOST_CHECK_EQUAL( ((Float*)o)->getValue(), 10.4323f );
+	BOOST_CHECK_EQUAL( ((Float*)o)->toString(), "2.345");
+	BOOST_CHECK_EQUAL( ((Float*)o)->getValue(), 2.345f );
 
 	delete[] f.content;
 }

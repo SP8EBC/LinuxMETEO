@@ -45,6 +45,9 @@ public:
 	static void setDevicesNumber(unsigned char devicesNumber);
 	static int getMasterId();
 	static void setMasterId( int masterId);
+
+	static vector<UmbDevice>* getDevices();
+	void setDevices(const vector<UmbDevice>& devices);
 };
 
 #endif /* CONFIG_PROGRAMCONFIG_H_ */

@@ -10,6 +10,9 @@
 #include "../types/Integer.h"
 #include "../types/Float.h"
 
+#include <cstring>
+#include <stdint.h>
+
 Routine23AnswerCbk::Routine23AnswerCbk() {
 	// TODO Auto-generated constructor stub
 
@@ -28,7 +31,8 @@ void* Routine23AnswerCbk::parseAnswer(UmbFrameRaw* in)
 	signed stemp = 0;
 	float ftemp = 0.0f;
 
-	unsigned char ff[] = {0x41, 0x26, 0xea, 0xb3};
+	unsigned char ff[] = {0x40, 0x16, 0x14, 0x7b};
+	uint8_t ffa[] = {0x7b, 0x14, 0x16, 0x40};
 	void *f = &ff;
 
 
@@ -39,7 +43,7 @@ void* Routine23AnswerCbk::parseAnswer(UmbFrameRaw* in)
 	}
 	else
 	{
-		unsigned char* content = in->content;
+		uint8_t* content = in->content;
 //		in->status = *content;
 
 		unsigned short channelNumber = ( *(in->content + 1) | *(in->content + 2) << 8);
@@ -87,7 +91,8 @@ void* Routine23AnswerCbk::parseAnswer(UmbFrameRaw* in)
 		case FLOAT:
 			return_value = new Float();
 //			f = (float*)((*(in->content + 4) | (*(in->content + 5) << 8) | (*(in->content + 6) << 16) | (*(in->content + 7) << 24)));
-			ftemp = *(float*)((void*)ff);
+//			ftemp = *(float*)((void*)ff);
+			memcpy(&ftemp, in->content + 4, 4);
 			((Float*)return_value)->setValue(ftemp);
 
 
@@ -95,6 +100,7 @@ void* Routine23AnswerCbk::parseAnswer(UmbFrameRaw* in)
 		case DOUBLE:
 			return_value = new Float();
 			//*f = ((*(in->content + 4) | (*(in->content + 5) << 8) | (*(in->content + 6) << 16) | (*(in->content + 7) << 24)));
+			memcpy(&ftemp, in->content + 4, 4);
 			((Float*)return_value)->setValue(ftemp);
 
 			break;

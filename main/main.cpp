@@ -7,12 +7,30 @@
 
 
 #include <iostream>
+#include "../serial/serial.h"
+#include "../config/ProgramConfig.h"
 
 using namespace std;
 
 int main() {
-	cout << "dupa";
+	ProgramConfig::readConfigFromFile();
+	serial s;
+
+	unsigned char globalChNumber = 0;
+	unsigned char devicesNum = ProgramConfig::getDevicesNumber();
+
+//	vector<UmbDevice> devices = ProgramConfig::getDevices();
+
+	s.init("/dev/ttyUSB0");
+
+	for (int i = 0; i < devicesNum; i++ ) {
+//		globalChNumber += devices[i].getChannels()->size();
+	}
+
+
+
 	return 0;
+
 }
 
 

@@ -20,15 +20,25 @@ BOOST_AUTO_TEST_CASE(a)
 	serial s;
 	ProgramConfig::setMasterId(1);
 
-	cout << hex << 1 << 2;
-
 	BOOST_REQUIRE_NO_THROW(s.init("/dev/ttyUSB0"));
 
 //	BOOST_REQUIRE_NO_THROW(s.test_transmit());
 
 	BOOST_REQUIRE_NO_THROW(UmbHandling::testChannelQuery(s));
 
+
 	ProgramConfig::setMasterId(1);
 
 
 }
+
+BOOST_AUTO_TEST_CASE(status)
+{
+	serial s;
+	ProgramConfig::setMasterId(1);
+
+	BOOST_REQUIRE_NO_THROW(s.init("/dev/ttyUSB0"));
+
+	BOOST_REQUIRE_NO_THROW(UmbHandling::checkStatus(1, 8, s));
+}
+

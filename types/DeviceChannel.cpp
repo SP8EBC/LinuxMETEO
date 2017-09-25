@@ -6,6 +6,8 @@
  */
 
 #include "DeviceChannel.h"
+#include "../exceptions/UsageParseError.h"
+
 
 DeviceChannel::DeviceChannel() {
 	// TODO Auto-generated constructor stub
@@ -56,6 +58,28 @@ ChannelType DeviceChannel::CastStringToEnum(string in) {
 	else if (in == "DOUBLE")
 		out = DOUBLE;
 	else;
+
+	return out;
+
+}
+
+ChannelUsage DeviceChannel::CastUsageStringToEnum(string in) {
+	ChannelUsage out = NONE;
+
+	if (in == "WINDSPEED")
+		out = WINDSPEED;
+	else if (in == "WINDGUSTS")
+		out = WINDGUSTS;
+	else if (in == "WINDDIR")
+		out = WINDDIR;
+	else if (in == "TEMPERATURE")
+		out = TEMPERATURE;
+	else if (in == "PRESSURE")
+		out = PRESSURE;
+	else if (in == "HUMIDITY")
+		out = HUMIDITY;
+	else
+		throw UsageParseError();
 
 	return out;
 

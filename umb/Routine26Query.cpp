@@ -23,7 +23,7 @@ void Routine26Query::prepareQuery(unsigned char deviceId, unsigned char deviceCl
 		out->content = new unsigned char[1];
 		*(out->content) = 0x00;
 
-		out->ln = 0x00U;		// data length between STX and ETX
+		out->ln = 0x02U;		// data length between STX and ETX
 	}
 
 }

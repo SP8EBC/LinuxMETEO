@@ -31,6 +31,7 @@ public:
 	DeviceChannel();
 	virtual ~DeviceChannel();
 	static ChannelType CastStringToEnum(string in);
+	static ChannelUsage CastUsageStringToEnum(string in);
 
 	unsigned getChannelNumber() const;
 	void setChannelNumber(unsigned channelNumber);

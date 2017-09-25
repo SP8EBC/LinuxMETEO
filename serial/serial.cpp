@@ -132,14 +132,17 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	out->slaveClass = *(data + 5) >> 4;
 	out->protVersion = *(data + 1);
 
-	out->checksum = *(data +  out->bytesRxed - 3) | *(data +  out->bytesRxed - 2) << 8;
+	out->checksumRxed = *(data +  out->bytesRxed - 3) | *(data +  out->bytesRxed - 2) << 8;
 
 	unsigned short crc = 0xFFFF;
 
 	for (int j = 0; j < (out->bytesRxed - 3); j++)
 		crc = calc_crc(crc, *(data + j));
 
-	return 0;
+	if (crc == out->checksumRxed)
+		out->chceksumCorrectRX = true;
+
+	return out;
 
 }
 

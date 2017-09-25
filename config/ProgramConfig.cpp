@@ -71,6 +71,14 @@ int ProgramConfig::getMasterId() {
 	return masterId;
 }
 
+vector<UmbDevice>* ProgramConfig::getDevices() {
+	return &devices;
+}
+
+void ProgramConfig::setDevices(const vector<UmbDevice>& devices) {
+	this->devices = devices;
+}
+
 void ProgramConfig::setMasterId(int masterId) {
 	ProgramConfig::masterId = masterId;
 }
@@ -121,8 +129,6 @@ int ProgramConfig::readConfigFromFile() {
 	Setting &Devs = rRoot["Devices"];
 	devicesNumber = Devs.getLength();
 
-	cout << "devicesNumber: " << devicesNumber << endl;
-
 	for (int ii = 0; ii < devicesNumber; ii++)
 	{
 			UmbDevice* d = new UmbDevice();
@@ -147,8 +153,8 @@ int ProgramConfig::readConfigFromFile() {
 				Channels[iii].lookupValue("channelName", s);
 				dc->setChannelName(s);
 
-				Channels[iii].lookupValue("channelType", s);
-				dc->setChannelType(DeviceChannel::CastStringToEnum(s));
+				Channels[iii].lookupValue("channelUsage", s);
+				dc->setChannelUsage(DeviceChannel::CastUsageStringToEnum(s));
 
 				d->getChannels()->push_back(*dc);
 
