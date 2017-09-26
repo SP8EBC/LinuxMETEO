@@ -13,6 +13,7 @@
 #include "../types/UmbFrameStructRaw.h"
 #include "../types/ChannelValueFoundation.h"
 #include "../types/Float.h"
+#include "../aprs/Mappings.h"
 
 #include <string>
 #include <iostream>
@@ -61,6 +62,8 @@ ChannelValueFoundation*  UmbHandling::channelQuery(unsigned short deviceId,
 													serial& serialPort)
 {
 	UmbFrameRaw f, *o;
+	memset (&f, 0x00, sizeof(f));
+
 
 	Routine23Query::prepareQuery(channelNumber, deviceId, deviceClass, &f);
 	serialPort.transmitUmb(&f);

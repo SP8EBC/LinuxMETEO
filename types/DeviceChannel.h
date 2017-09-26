@@ -32,6 +32,7 @@ public:
 	virtual ~DeviceChannel();
 	static ChannelType CastStringToEnum(string in);
 	static ChannelUsage CastUsageStringToEnum(string in);
+	static MeasurementUnit CastUnitStringToEnum(string in);
 
 	unsigned getChannelNumber() const;
 	void setChannelNumber(unsigned channelNumber);
@@ -44,6 +45,8 @@ public:
 
 	ChannelUsage getChannelUsage() const;
 	void setChannelUsage(ChannelUsage channelUsage);
+	MeasurementUnit getMeasurementUnit() const;
+	void setMeasurementUnit(MeasurementUnit measurementUnit);
 };
 
 #endif /* CONFIG_DEVICECHANNEL_H_ */

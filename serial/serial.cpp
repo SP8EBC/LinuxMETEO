@@ -54,7 +54,7 @@ void serial::transmitUmb(UmbFrameRaw* in) {
 	//
 	txbuffer[i++] = in->cmdId;
 	txbuffer[i++] = V10;
-	for (int j; j < in->ln - 2; j++ )
+	for (int j = 0; j < in->ln - 2; j++ )
 		txbuffer[i++] = *(in->content+j);
 	//
 	txbuffer[i++] = ETX;
@@ -192,6 +192,8 @@ void serial::init(string port)
 	if ( tcsetattr ( handle, TCSANOW, &tty ) != 0) {
 	   std::cout << "Error " << errno << " from tcsetattr" << std::endl;
 	}
+
+	std::cout << "Port serial skonfigurowany " << std::endl;
 }
 
 void serial::test_transmit()

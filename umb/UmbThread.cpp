@@ -8,6 +8,7 @@
 #include "UmbThread.h"
 #include "../config/ProgramConfig.h"
 #include "../umb/UmbHandling.h"
+#include "../aprs/Mappings.h"
 
 #include <vector>
 
@@ -17,7 +18,6 @@ UmbThread::UmbThread(serial* p, uint8_t master_id, vector<UmbDevice>* devices)
 																	  devs(devices)
 
 {
-	// TODO Auto-generated constructor stub
 
 }
 
@@ -31,7 +31,7 @@ void UmbThread::serviceThread(void)
 		vector<DeviceChannel> *vc = itdevs[id].getChannels();
 		vector<DeviceChannel>::iterator itchannels = vc->begin();
 
-		for (int ic = 0; vc->size(); ic++)
+		for (int ic = 0; ic < (int)vc->size(); ic++)
 		{
 			DeviceChannel* channel = &itchannels[ic];
 			unsigned int chnum = channel->getChannelNumber();
@@ -41,6 +41,11 @@ void UmbThread::serviceThread(void)
 																	itdevs[id].getDeviceClass(),
 																	chnum,
 																	*port);
+
+			if (use != NONE) {
+				Mappings::usageUnitMapping[use] = channel->getMeasurementUnit();
+				Mappings::usageValuesMapping[use] = val;
+			}
 
 			printf("kanal: %d, wartosc: %s\r\n", chnum, val->toString().c_str());
 		}

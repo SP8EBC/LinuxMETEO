@@ -147,14 +147,18 @@ int ProgramConfig::readConfigFromFile() {
 				DeviceChannel* dc = new DeviceChannel();
 				string s;
 
-				Channels[iii].lookupValue("channelNumber", temp);
+				Channels[iii].lookupValue("Number", temp);
 				dc->setChannelNumber((unsigned int) temp);
 
-				Channels[iii].lookupValue("channelName", s);
+				Channels[iii].lookupValue("Name", s);
 				dc->setChannelName(s);
 
-				Channels[iii].lookupValue("channelUsage", s);
+				Channels[iii].lookupValue("Usage", s);
 				dc->setChannelUsage(DeviceChannel::CastUsageStringToEnum(s));
+
+				Channels[iii].lookupValue("Unit", s);
+				dc->setMeasurementUnit(DeviceChannel::CastUnitStringToEnum(s));
+
 
 				d->getChannels()->push_back(*dc);
 

@@ -75,7 +75,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="umb/UmbThread_test.cpp|main/main.cpp|config/ProgramConfig_test.cpp|umb/Routine23AnswerCbk_test.cpp|umb/Routine26Query_test.cpp|serial/serial_test.cpp|umb/Routine23Query_test.cpp|aux/UnitsConversionMatrix_test.cpp|types/Float_test.cpp|types/DeviceChannel_test.cpp|config/DeviceChannel_test.cpp|config/UmbDevice_test.cpp|aprs/Call_test.cpp|aprs/PacketWx_test.cpp|aprs/PacketFoundation_test.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="umb/UmbHandling_test.cpp|main/main.cpp|config/ProgramConfig_test.cpp|umb/Routine23AnswerCbk_test.cpp|umb/Routine26Query_test.cpp|serial/serial_test.cpp|umb/Routine23Query_test.cpp|aux/UnitsConversionMatrix_test.cpp|types/Float_test.cpp|types/DeviceChannel_test.cpp|config/DeviceChannel_test.cpp|config/UmbDevice_test.cpp|aprs/Call_test.cpp|aprs/PacketWx_test.cpp|aprs/PacketFoundation_test.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -123,7 +123,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="umb/UmbThread_test.cpp|main/main.cpp|config/ProgramConfig_test.cpp|umb/Routine23AnswerCbk_test.cpp|umb/Routine26Query_test.cpp|serial/serial_test.cpp|umb/Routine23Query_test.cpp|aux/UnitsConversionMatrix_test.cpp|types/Float_test.cpp|types/DeviceChannel_test.cpp|config/DeviceChannel_test.cpp|config/UmbDevice_test.cpp|aprs/Call_test.cpp|aprs/PacketWx_test.cpp|aprs/PacketFoundation_test.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="umb/UmbHandling_test.cpp|main/main.cpp|config/ProgramConfig_test.cpp|umb/Routine23AnswerCbk_test.cpp|umb/Routine26Query_test.cpp|serial/serial_test.cpp|umb/Routine23Query_test.cpp|aux/UnitsConversionMatrix_test.cpp|types/Float_test.cpp|types/DeviceChannel_test.cpp|config/DeviceChannel_test.cpp|config/UmbDevice_test.cpp|aprs/Call_test.cpp|aprs/PacketWx_test.cpp|aprs/PacketFoundation_test.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

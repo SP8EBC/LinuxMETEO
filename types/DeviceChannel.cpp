@@ -89,6 +89,36 @@ ChannelUsage DeviceChannel::getChannelUsage() const {
 	return channelUsage;
 }
 
+MeasurementUnit DeviceChannel::CastUnitStringToEnum(string in) {
+	MeasurementUnit out = UNINITIALIZED;
+
+	if (in == "m/s")
+		out = MS;
+	else if (in == "km/h")
+		out = KMH;
+	else if (in == "kts")
+		out = KTS;
+	else if (in == "hPa")
+		out = HPA;
+	else if (in == "degC")
+		out = DEGC;
+	else if (in == "degF")
+		out = DEGF;
+	else
+		throw UsageParseError();
+
+	return out;
+
+}
+
+MeasurementUnit DeviceChannel::getMeasurementUnit() const {
+	return measurementUnit;
+}
+
+void DeviceChannel::setMeasurementUnit(MeasurementUnit measurementUnit) {
+	this->measurementUnit = measurementUnit;
+}
+
 void DeviceChannel::setChannelUsage(ChannelUsage channelUsage) {
 	this->channelUsage = channelUsage;
 }
