@@ -9,6 +9,8 @@
 #define APRS_PACKETWX_H_
 
 #include "PacketFoundation.h"
+#include "Mappings.h"
+
 #include <string>
 
 class AprsPacketWx: public AprsPacketFoundation {
@@ -20,15 +22,12 @@ private:
 	unsigned char humidity;
 	unsigned short qnh, qfe;
 
+	map<ChannelUsage, MeasurementUnit> &usageUnitMapping;
+	map<ChannelUsage, void*> &usageValuesMapping;
+
 
 public:
-	AprsPacketWx(AprsCall* s, AprsCall* d, unsigned short direction,
-										   float windspeed,
-										   float gusts,
-										   float temperature,
-										   unsigned char humidity,
-										   unsigned short qnh,
-										   unsigned short qfe);
+	AprsPacketWx(AprsCall* s, AprsCall* d, map<ChannelUsage, MeasurementUnit>& unit, map<ChannelUsage, void*>& values);
 	virtual ~AprsPacketWx();
 
 	string toString();

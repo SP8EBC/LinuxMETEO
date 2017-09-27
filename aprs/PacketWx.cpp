@@ -6,38 +6,43 @@
  */
 
 #include <cstdio>
+#include <cstring>
 
 #include "PacketWx.h"
 #include "PacketFoundation.h"
 #include "Call.h"
 #include "../config/ProgramConfig.h"
+#include "../types/ChannelUsage.h"
+#include "../types/MeasurementUnit.h"
+#include "../aux/UnitsConversionMatrix.h"
 
-AprsPacketWx::AprsPacketWx(AprsCall* s, AprsCall* d, unsigned short _direction,
-												   float _windspeed,
-												   float _gusts,
-												   float _temperature,
-												   unsigned char _humidity,
-												   unsigned short _qnh,
-												   unsigned short _qfe)
-												   :
-												   AprsPacketFoundation(s, d),
-												   direction(_direction),
-												   windspeed(_windspeed),
-												   gusts(_gusts),
-												   temperature(_temperature),
-												   humidity(_humidity),
-												   qnh(_qnh),
-												   qfe(_qfe){
-	// TODO Auto-generated constructor stub
-}
+
 
 AprsPacketWx::~AprsPacketWx() {
 	// TODO Auto-generated destructor stub
 }
 
+AprsPacketWx::AprsPacketWx(AprsCall* s, AprsCall* d,
+		map<ChannelUsage, MeasurementUnit>& unit,
+		map<ChannelUsage, void*>& values) :
+										AprsPacketFoundation(s, d),
+										usageUnitMapping(unit),
+										usageValuesMapping(values)
+{
+	direction = 0;
+	windspeed = 0.0f;
+	gusts = 0.0f;
+	temperature = 0.0f;
+	humidity = 0;
+	qnh = 0;
+	qfe = 0;
+}
+
 string AprsPacketWx::toString() {
 	string* out;
 	char cout[190];
+	memset(cout, 0x00, 190);
+
 
 	float max_wind_speed = 0.0, temp;
 	unsigned char wind_speed_mph, wind_gusts_mph;
@@ -58,21 +63,22 @@ string AprsPacketWx::toString() {
 		wind_gusts_mph = (short)max_wind_speed + 1;
 	else
 		wind_gusts_mph = (short)max_wind_speed;
-	sprintf(cout, "!%s%s%c%s%s%c%03d/%03dg%03dt%03dr...p...P...b%05d",
+	sprintf(cout, "!%s%s%c%s%s%c%s/%sg%st%sr...p...P...b%s\0",
 							ProgramConfig::getLat().c_str(),
 							ProgramConfig::getLatns().c_str(),
 							'/',
 							ProgramConfig::getLon().c_str(),
 							ProgramConfig::getLonwe().c_str(),
 							'_',
-							/* kierunek */(short)(this->direction),
-							/* predkosc*/(int)wind_speed_mph,
-							/* porywy */(short)(wind_gusts_mph),
-							/*temperatura */(short)(this->temperature*1.8+32),
-							qnh *10);
+							/* kierunek */static_cast<ChannelValueFoundation*>(usageValuesMapping[WINDDIR])->toAprsConvertedString(usageUnitMapping[WINDDIR],MS).c_str(),
+							/* predkosc*/static_cast<ChannelValueFoundation*>(usageValuesMapping[WINDSPEED])->toAprsConvertedString(usageUnitMapping[WINDSPEED],MPH).c_str(),
+							/* porywy */static_cast<ChannelValueFoundation*>(usageValuesMapping[WINDGUSTS])->toAprsConvertedString(usageUnitMapping[WINDGUSTS],MPH).c_str(),
+							/*temperatura */static_cast<ChannelValueFoundation*>(usageValuesMapping[TEMPERATURE])->toAprsConvertedString(usageUnitMapping[TEMPERATURE],DEGF).c_str(),
+							static_cast<ChannelValueFoundation*>(usageValuesMapping[PRESSURE])->toAprsConvertedString(usageUnitMapping[PRESSURE],HPA).c_str());
 
 	out = new string(cout);
 
 	return *out;
+
 }
 

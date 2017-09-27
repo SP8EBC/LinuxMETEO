@@ -16,7 +16,8 @@ enum MeasurementUnit {
 	KTS = 3,
 	HPA = 4,
 	DEGC = 5,
-	DEGF = 6
+	DEGF = 6,
+	MPH = 7
 };
 
 

@@ -13,7 +13,7 @@ public:
 	UnitsConversionMatrix();
 	virtual ~UnitsConversionMatrix();
 
-	static const float conversionMatrix[7][7];
+	static const float conversionMatrix[8][8];
 };
 
 #endif /* AUX_UNITSCONVERSIONMATRIX_H_ */

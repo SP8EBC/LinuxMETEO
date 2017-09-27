@@ -22,7 +22,7 @@ protected:
 public:
 
 	virtual string toString() = 0;
-	virtual string toAprsConvertedString(MeasurementUnit &from, MeasurementUnit &to) = 0;
+	virtual string toAprsConvertedString(MeasurementUnit from, MeasurementUnit to) = 0;
 	virtual string getType() = 0;
 
 	ChannelValueFoundation();

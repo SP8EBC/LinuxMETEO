@@ -10,6 +10,8 @@
 
 #include <sstream>
 #include <cstdio>
+#include <cmath>
+
 
 const string Float::type = "float";
 
@@ -27,11 +29,24 @@ string Float::getType() {
 	return Float::type;
 }
 
-string Float::toAprsConvertedString(MeasurementUnit &from, MeasurementUnit &to) {
+string Float::toAprsConvertedString(MeasurementUnit from, MeasurementUnit to) {
 	float output = this->store * UnitsConversionMatrix::conversionMatrix[to][from];
-	char s[4] = {0, 0, 0, 0};
+	if (to == DEGF)
+	{
+		output += 32.0f;
+	}
+	if (to == HPA)
+	{
+		output *= 10.0f;
+	}
 
-	sprintf(s, "%03d", (int)output);
+	char s[6] = {0, 0, 0, 0, 0, 0};
+
+	if (to != HPA)
+		sprintf(s, "%03d", (int)round(output));
+	else
+		sprintf(s, "%04d", (int)round(output));
+
 
 	string o(s);
 
@@ -40,6 +55,12 @@ string Float::toAprsConvertedString(MeasurementUnit &from, MeasurementUnit &to) 
 
 float Float::getValue() const {
 	return store;
+}
+
+Float::Float(float init) {
+	store = init;
+	value = &this->store;
+
 }
 
 void Float::setValue(float store) {

@@ -22,10 +22,11 @@ class Float: public ChannelValueFoundation {
 
 public:
 	Float();
+	Float(float init);
 	virtual ~Float();
 
 	string getType();
-	string toAprsConvertedString(MeasurementUnit &from, MeasurementUnit &to);
+	string toAprsConvertedString(MeasurementUnit from, MeasurementUnit to);
 	string toString();
 
 	float getValue() const;

@@ -10,6 +10,7 @@
 
 #include <sstream>
 #include <cstdio>
+#include <cmath>
 
 using namespace std;
 
@@ -28,11 +29,16 @@ string Integer::getType() {
 	return Integer::type;
 }
 
-string Integer::toAprsConvertedString(MeasurementUnit &from, MeasurementUnit &to) {
-	float output = (float)this->store * UnitsConversionMatrix::conversionMatrix[to][from];
+string Integer::toAprsConvertedString(MeasurementUnit from, MeasurementUnit to) {
+	float output = (float)this->store * UnitsConversionMatrix::conversionMatrix[from][to];
+	if (to == DEGF)
+	{
+		output += 32.0f;
+	}
+
 	char s[4] = {0, 0, 0, 0};
 
-	sprintf(s, "%03d", (int)output);
+	sprintf(s, "%03d", (int)round(output));
 
 	string o(s);
 
@@ -41,6 +47,12 @@ string Integer::toAprsConvertedString(MeasurementUnit &from, MeasurementUnit &to
 
 int Integer::getValue() const {
 	return store;
+}
+
+Integer::Integer(int init) {
+	store = init;
+	value = &this->store;
+
 }
 
 void Integer::setValue(int store) {

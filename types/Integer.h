@@ -22,10 +22,11 @@ class Integer: public ChannelValueFoundation {
 
 public:
 	Integer();
+	Integer(int init);
 	virtual ~Integer();
 
 	string getType();
-	string toAprsConvertedString(MeasurementUnit &from, MeasurementUnit &to);
+	string toAprsConvertedString(MeasurementUnit from, MeasurementUnit to);
 	string toString();
 
 	int getValue() const;
