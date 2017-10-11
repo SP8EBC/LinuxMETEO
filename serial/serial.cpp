@@ -142,6 +142,8 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	if (crc == out->checksumRxed)
 		out->chceksumCorrectRX = true;
 
+	delete rx;
+
 	return out;
 
 }

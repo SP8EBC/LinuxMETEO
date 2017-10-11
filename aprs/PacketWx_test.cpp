@@ -9,7 +9,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE PACKETWX
 #include <boost/test/unit_test.hpp>
-
+#include <iostream>
 
 #include "../config/ProgramConfig.h"
 #include "../types/ChannelType.h"
@@ -45,6 +45,8 @@ BOOST_AUTO_TEST_CASE(basic)
 	p = new AprsPacketWx(&s, &d, Mappings::usageUnitMapping, Mappings::usageValuesMapping);
 
 	string o = p->toString();
+
+	std::cout << o << std::endl;
 
 	BOOST_CHECK( o == "" );
 }

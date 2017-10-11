@@ -14,6 +14,8 @@
 #include "../config/ProgramConfig.h"
 #include "../types/ChannelUsage.h"
 #include "../types/MeasurementUnit.h"
+#include "../types/Integer.h"
+#include "../types/Float.h"
 #include "../aux/UnitsConversionMatrix.h"
 
 
@@ -39,10 +41,24 @@ AprsPacketWx::AprsPacketWx(AprsCall* s, AprsCall* d,
 }
 
 string AprsPacketWx::toString() {
-	string* out;
 	char cout[190];
 	memset(cout, 0x00, 190);
 
+	if (usageValuesMapping[WINDDIR] == NULL) {
+		usageValuesMapping[WINDDIR] = new Integer(0);
+	}
+	if (usageValuesMapping[WINDSPEED] == NULL) {
+		usageValuesMapping[WINDSPEED] = new Float(0.0f);
+	}
+	if (usageValuesMapping[WINDGUSTS] == NULL) {
+		usageValuesMapping[WINDGUSTS] = new Float(0.0f);
+	}
+	if (usageValuesMapping[TEMPERATURE] == NULL) {
+		usageValuesMapping[TEMPERATURE] = new Integer(0);
+	}
+	if (usageValuesMapping[PRESSURE] == NULL) {
+		usageValuesMapping[PRESSURE] = new Integer(0);
+	}
 
 	float max_wind_speed = 0.0, temp;
 	unsigned char wind_speed_mph, wind_gusts_mph;
@@ -76,9 +92,9 @@ string AprsPacketWx::toString() {
 							/*temperatura */static_cast<ChannelValueFoundation*>(usageValuesMapping[TEMPERATURE])->toAprsConvertedString(usageUnitMapping[TEMPERATURE],DEGF).c_str(),
 							static_cast<ChannelValueFoundation*>(usageValuesMapping[PRESSURE])->toAprsConvertedString(usageUnitMapping[PRESSURE],HPA).c_str());
 
-	out = new string(cout);
+	string out(cout);
 
-	return *out;
+	return out;
 
 }
 

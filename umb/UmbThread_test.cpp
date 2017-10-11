@@ -21,12 +21,14 @@ BOOST_AUTO_TEST_CASE(a)
 
 	BOOST_REQUIRE_NO_THROW(s.init("/dev/ttyUSB0"));
 
-	UmbThread t(&s, ProgramConfig::getMasterId(), ProgramConfig::getDevices());
+	UmbThread *t;
+	t = new UmbThread(&s, ProgramConfig::getMasterId(), ProgramConfig::getDevices());
 
 //	BOOST_REQUIRE_NO_THROW(s.test_transmit());
 
-	BOOST_REQUIRE_NO_THROW(t.serviceThread());
+	BOOST_REQUIRE_NO_THROW(t->serviceThread());
 
+	delete t;
 
 	ProgramConfig::setMasterId(1);
 

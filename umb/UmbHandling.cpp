@@ -35,6 +35,7 @@ int UmbHandling::checkStatus(unsigned short deviceId, unsigned short deviceClass
 	uint8_t s = Routine26AnswerCbk::parseAnswer(o);
 	printf("status: %d", s);
 
+	delete o;
 
 	return 0;
 }

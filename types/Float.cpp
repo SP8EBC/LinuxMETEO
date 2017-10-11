@@ -45,7 +45,7 @@ string Float::toAprsConvertedString(MeasurementUnit from, MeasurementUnit to) {
 	if (to != HPA)
 		sprintf(s, "%03d", (int)round(output));
 	else
-		sprintf(s, "%04d", (int)round(output));
+		sprintf(s, "%05d", (int)round(output));
 
 
 	string o(s);

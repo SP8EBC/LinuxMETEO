@@ -9,6 +9,7 @@
 #include <iostream>
 #include "../serial/serial.h"
 #include "../config/ProgramConfig.h"
+#include "../umb/UmbThread.h"
 
 using namespace std;
 
@@ -19,15 +20,13 @@ int main() {
 	unsigned char globalChNumber = 0;
 	unsigned char devicesNum = ProgramConfig::getDevicesNumber();
 
-//	vector<UmbDevice> devices = ProgramConfig::getDevices();
-
 	s.init("/dev/ttyUSB0");
 
-	for (int i = 0; i < devicesNum; i++ ) {
-//		globalChNumber += devices[i].getChannels()->size();
-	}
+	UmbThread *t;
+	t = new UmbThread(&s, ProgramConfig::getMasterId(), ProgramConfig::getDevices());
+	t->serviceThread();
 
-
+	delete t;
 
 	return 0;
 
