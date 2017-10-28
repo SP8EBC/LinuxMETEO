@@ -10,12 +10,14 @@
 #include <sstream>
 #include <iostream>
 #include <string>
+#include <cstring>
+#include <cstdio>
 #include <libconfig.h++>
 
-float ProgramConfig::lat = 0.0f;
-float ProgramConfig::lon = 0.0f;
-bool ProgramConfig::latns;
-bool ProgramConfig::lonwe;
+float ProgramConfig::lat = 4941.11f;
+float ProgramConfig::lon = 1901.91f;
+bool ProgramConfig::latns = false;
+bool ProgramConfig::lonwe = true;
 
 string ProgramConfig::comport;
 string ProgramConfig::outputAprxFile;
@@ -43,9 +45,14 @@ string ProgramConfig::getLat() {
 
 string ProgramConfig::getLon() {
 	ostringstream out;
-	out << ProgramConfig::lon;
+	
+	char oout[10];
+	memset(oout, 0, 10);
+	sprintf(oout,"%08.2f" , ProgramConfig::lon);
 
-	return out.str();
+//	out << ProgramConfig::lon;
+
+	return oout;
 }
 
 string ProgramConfig::getLatns() {
@@ -102,7 +109,82 @@ string ProgramConfig::getLonwe() {
 	return out.str();
 }
 
+int ProgramConfig::manualConfig() {
+	comport = "/dev/ttyUSB99";
+	outputAprxFile = "/etc/aprxwx.txt";
+	masterId = 10;
+
+	devicesNumber = 2;
+
+	UmbDevice* d1 = new UmbDevice();
+	UmbDevice* d2 = new UmbDevice();
+
+	d1->setDeviceId(2);
+	d1->setDeviceClass(12);
+
+	d2->setDeviceId(1);
+	d2->setDeviceClass(8);
+
+
+				DeviceChannel* dc = new DeviceChannel();
+				string s;
+
+				dc->setChannelNumber(100);
+				dc->setChannelName("temperatura");
+				dc->setChannelUsage(DeviceChannel::CastUsageStringToEnum("TEMPERATURE"));
+				dc->setMeasurementUnit(DeviceChannel::CastUnitStringToEnum("degC"));
+				d1->getChannels()->push_back(*dc);
+
+				delete dc;
+				dc = new DeviceChannel();
+
+				dc->setChannelNumber(440);
+				dc->setChannelName("porywy");
+				dc->setChannelUsage(DeviceChannel::CastUsageStringToEnum("WINDGUSTS"));
+				dc->setMeasurementUnit(DeviceChannel::CastUnitStringToEnum("m/s"));
+				d2->getChannels()->push_back(*dc);
+
+				delete dc;
+				dc = new DeviceChannel();
+
+				dc->setChannelNumber(460);
+				dc->setChannelName("predkosc");
+				dc->setChannelUsage(DeviceChannel::CastUsageStringToEnum("WINDSPEED"));
+				dc->setMeasurementUnit(DeviceChannel::CastUnitStringToEnum("m/s"));
+				d2->getChannels()->push_back(*dc);
+
+				delete dc;
+				dc = new DeviceChannel();
+
+				dc->setChannelNumber(580);
+				dc->setChannelName("kierunek");
+				dc->setChannelUsage(DeviceChannel::CastUsageStringToEnum("WINDDIR"));
+				dc->setMeasurementUnit(DeviceChannel::CastUnitStringToEnum("m/s"));
+				d2->getChannels()->push_back(*dc);
+
+				delete dc;
+				dc = new DeviceChannel();
+
+				dc->setChannelNumber(365);
+				dc->setChannelName("cisnienie");
+				dc->setChannelUsage(DeviceChannel::CastUsageStringToEnum("PRESSURE"));
+				dc->setMeasurementUnit(DeviceChannel::CastUnitStringToEnum("hPa"));
+				d2->getChannels()->push_back(*dc);
+
+				delete dc;
+
+
+				devices.push_back(*d1);
+				devices.push_back(*d2);
+
+	return 0;
+
+
+
+}
+
 int ProgramConfig::readConfigFromFile() {
+#ifndef _ONLY_MANUAL_CFG
 	Config cLibConfig;
 
 	try {
@@ -127,6 +209,7 @@ int ProgramConfig::readConfigFromFile() {
 	cLibConfig.lookupValue("MasterId", masterId);
 
 	Setting &Devs = rRoot["Devices"];
+
 	devicesNumber = Devs.getLength();
 
 	for (int ii = 0; ii < devicesNumber; ii++)
@@ -170,4 +253,5 @@ int ProgramConfig::readConfigFromFile() {
 	}
 
 	return 0;
+#endif
 }

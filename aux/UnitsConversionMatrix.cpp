@@ -24,8 +24,8 @@ const float UnitsConversionMatrix::conversionMatrix[8][8] = {
 /* kmh*/{.0f, 3.6f , 1.0f, 1.85f, .0f , .0f , .0f , .621f},
 /* kts*/{.0f, 1.94f, .53f, 1.0f , .0f , .0f , .0f , 1.15f},
 /* hpa*/{.0f, .0f  , .0f , .0f  , 1.0f, .0f , .0f , .0f  },
-/*degc*/{.0f, .0f  , .0f , .0f  , .0f , 1.0f, .55f, .0f  },
-/*degf*/{.0f, .0f  , .0f , .0f  , .0f , 1.8f, 1.0f, .0f  },
+/*degc*/{.0f, .0f  , .0f , .0f  , .0f , 1.0f, 1.8f, .0f  },
+/*degf*/{.0f, .0f  , .0f , .0f  , .0f , .55f, 1.0f, .0f  },
 /* mph*/{.0f, 2.24f, 1.6f, .868f, .0f , 1.8f, 1.0f, .0f  }
 };
 

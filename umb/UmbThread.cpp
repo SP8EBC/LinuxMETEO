@@ -15,6 +15,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 
 UmbThread::UmbThread(serial* p, uint8_t master_id, vector<UmbDevice>* devices)
 																	: port(p),
@@ -44,6 +45,8 @@ void UmbThread::serviceThread(void)
 			DeviceChannel* channel = &itchannels[ic];
 			unsigned int chnum = channel->getChannelNumber();
 			ChannelUsage use = channel->getChannelUsage();
+
+			sleep(1);
 
 			try {
 				ChannelValueFoundation *val = UmbHandling::channelQuery(itdevs[id].getDeviceId(),

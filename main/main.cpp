@@ -14,7 +14,14 @@
 using namespace std;
 
 int main() {
+#ifndef _ONLY_MANUAL_CFG
 	ProgramConfig::readConfigFromFile();
+#endif
+
+#ifdef _ONLY_MANUAL_CFG
+	ProgramConfig::manualConfig();
+#endif
+
 	serial s;
 
 	unsigned char globalChNumber = 0;

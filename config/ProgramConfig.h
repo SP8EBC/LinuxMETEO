@@ -34,6 +34,7 @@ public:
 	virtual ~ProgramConfig();
 
 	static int readConfigFromFile();
+	static int manualConfig();
 
 	static string getLat();
 	static string getLon();
