@@ -13,6 +13,8 @@
 #include <cstring>
 #include <stdint.h>
 
+#include <cstdio>
+
 Routine23AnswerCbk::Routine23AnswerCbk() {
 	// TODO Auto-generated constructor stub
 
@@ -104,9 +106,14 @@ void* Routine23AnswerCbk::parseAnswer(UmbFrameRaw* in)
 			((Float*)return_value)->setValue(ftemp);
 
 			break;
-		default: break;
+		default:
+			return_value = new Float();
+			((Float*)return_value)->setValue(0.0f);
+			break;
 		}
 	}
+
+	printf("parseAnswer - kanal: %d - status: %d - ln: %d - chtype: %d - temp: %d - stemp: %d - ftem: %f\r\n", ( *(in->content + 1) | *(in->content + 2) << 8),  (int)*(in->content), (int)(in->ln), *(in->content + 3), temp, stemp, ftemp);
 	return return_value;
 }
 

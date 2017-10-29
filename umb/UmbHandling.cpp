@@ -67,6 +67,9 @@ ChannelValueFoundation*  UmbHandling::channelQuery(unsigned short deviceId,
 
 
 	Routine23Query::prepareQuery(channelNumber, deviceId, deviceClass, &f);
+
+	std::cout << "channelQuery - kanal: " << channelNumber << " - ln: " << (int)f.ln <<  std::endl;
+
 	serialPort.transmitUmb(&f);
 	o = serialPort.receiveUmb(2);
 	ChannelValueFoundation *ch = (ChannelValueFoundation*)Routine23AnswerCbk::parseAnswer(o);
