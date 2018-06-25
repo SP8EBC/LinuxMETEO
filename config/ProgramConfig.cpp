@@ -14,8 +14,8 @@
 #include <cstdio>
 #include <libconfig.h++>
 
-float ProgramConfig::lat = 4941.11f;
-float ProgramConfig::lon = 1901.91f;
+float ProgramConfig::lat = 4946.09f;
+float ProgramConfig::lon = 1902.33f;
 bool ProgramConfig::latns = false;
 bool ProgramConfig::lonwe = true;
 
