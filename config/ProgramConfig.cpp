@@ -223,7 +223,7 @@ int ProgramConfig::readConfigFromFile() {
 			Devs[ii].lookupValue("deviceClass", temp);
 			d->setDeviceClass((unsigned short)temp);
 
-			Setting &Channels = Devs[ii].lookup("Channels");
+			Setting &Channels = Devs[ii]["Channels"];
 
 			for (int iii = 0; iii < Channels.getLength(); iii++)
 			{

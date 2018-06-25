@@ -17,7 +17,8 @@ enum MeasurementUnit {
 	HPA = 4,
 	DEGC = 5,
 	DEGF = 6,
-	MPH = 7
+	MPH = 7,
+	PERCENT = 8
 };
 
 

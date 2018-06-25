@@ -104,6 +104,8 @@ MeasurementUnit DeviceChannel::CastUnitStringToEnum(string in) {
 		out = DEGC;
 	else if (in == "degF")
 		out = DEGF;
+	else if (in == "percent")
+		out = PERCENT;
 	else
 		throw UsageParseError();
 

@@ -59,6 +59,9 @@ string AprsPacketWx::toString() {
 	if (usageValuesMapping[PRESSURE] == NULL) {
 		usageValuesMapping[PRESSURE] = new Integer(0);
 	}
+	if (usageValuesMapping[HUMIDITY] == NULL) {
+		usageValuesMapping[HUMIDITY] = new Integer(0);
+	}
 
 	float max_wind_speed = 0.0, temp;
 	unsigned char wind_speed_mph, wind_gusts_mph;
@@ -79,7 +82,7 @@ string AprsPacketWx::toString() {
 		wind_gusts_mph = (short)max_wind_speed + 1;
 	else
 		wind_gusts_mph = (short)max_wind_speed;
-	sprintf(cout, "!%s%s%c%s%s%c%s/%sg%st%sr...p...P...b%s\0",
+	sprintf(cout, "!%s%s%c%s%s%c%s/%sg%st%sr...p...P...b%s0h%s\0",
 							ProgramConfig::getLat().c_str(),
 							ProgramConfig::getLatns().c_str(),
 							'/',
@@ -90,7 +93,9 @@ string AprsPacketWx::toString() {
 							/* predkosc*/static_cast<ChannelValueFoundation*>(usageValuesMapping[WINDSPEED])->toAprsConvertedString(usageUnitMapping[WINDSPEED],MPH).c_str(),
 							/* porywy */static_cast<ChannelValueFoundation*>(usageValuesMapping[WINDGUSTS])->toAprsConvertedString(usageUnitMapping[WINDGUSTS],MPH).c_str(),
 							/*temperatura */static_cast<ChannelValueFoundation*>(usageValuesMapping[TEMPERATURE])->toAprsConvertedString(usageUnitMapping[TEMPERATURE],DEGF).c_str(),
-							static_cast<ChannelValueFoundation*>(usageValuesMapping[PRESSURE])->toAprsConvertedString(usageUnitMapping[PRESSURE],HPA).c_str());
+							static_cast<ChannelValueFoundation*>(usageValuesMapping[PRESSURE])->toAprsConvertedString(usageUnitMapping[PRESSURE],HPA).c_str(),
+							/* wilgotnosc */static_cast<ChannelValueFoundation*>(usageValuesMapping[HUMIDITY])->toAprsConvertedString(HPA,HPA).substr(1, 2).c_str()
+);
 
 	string out(cout);
 
