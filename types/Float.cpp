@@ -30,7 +30,7 @@ string Float::getType() {
 }
 
 string Float::toAprsConvertedString(MeasurementUnit from, MeasurementUnit to) {
-	float output = this->store * UnitsConversionMatrix::conversionMatrix[to][from];
+	float output = this->store * UnitsConversionMatrix::conversionMatrix[from][to];
 	if (to == DEGF)
 	{
 		output += 32.0f;
