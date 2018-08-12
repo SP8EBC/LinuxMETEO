@@ -27,7 +27,7 @@ int main() {
 	unsigned char globalChNumber = 0;
 	unsigned char devicesNum = ProgramConfig::getDevicesNumber();
 
-	s.init("/dev/ttyS0");
+	s.init("/dev/ttyUSBWX");
 
 	UmbThread *t;
 	t = new UmbThread(&s, ProgramConfig::getMasterId(), ProgramConfig::getDevices());
