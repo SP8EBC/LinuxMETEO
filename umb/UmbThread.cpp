@@ -63,6 +63,7 @@ void UmbThread::serviceThread(void)
 			}
 			catch (...) {
 				printf("wyjatek przy komunikacji po RS\r\n");
+				return;
 			}
 
 		}
