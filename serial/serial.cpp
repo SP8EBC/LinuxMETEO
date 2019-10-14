@@ -97,8 +97,16 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	for (; pos <= 7; pos++)
 	{
 		gettimeofday(&timeout, NULL);
-		if (timeout.tv_sec - timeout_start.tv_sec > ProgramConfig::getTimeout())
+		if (timeout.tv_sec - timeout_start.tv_sec > ProgramConfig::getTimeout()) {
+			printf("serial::receiveUmb.rx:");
+			for (unsigned j = 0; j < rx->size(); j++) {
+				printf(" 0x%x", (unsigned)rx->at(j));
+			}
+			printf("\r\n");
+
+
 			throw TimeoutE();		//TODO: zrobić rzucanie wyjątku
+		}
 
 		n = read(handle, &rx_buf, 1);
 		if (n != 0)
@@ -112,14 +120,29 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 
 	for (; pos <= ln_rcv; pos++) {
 		gettimeofday(&timeout, NULL);
-		if (timeout.tv_sec - timeout_start.tv_sec > ProgramConfig::getTimeout())
+		if (timeout.tv_sec - timeout_start.tv_sec > ProgramConfig::getTimeout()) {
+			printf("serial::receiveUmb.rx:");
+			for (unsigned j = 0; j < rx->size(); j++) {
+				printf(" 0x%x", (unsigned)rx->at(j));
+			}
+			printf("\r\n");
+
 			throw TimeoutE();		//TODO: zrobić rzucanie wyjątku
+		}
 
 		n = read(handle, &rx_buf, 1);
 		if (n != 0)
 			rx->push_back(rx_buf);
-		else
+		else {
+			printf("serial::receiveUmb.rx:");
+			for (unsigned j = 0; j < rx->size(); j++) {
+				printf(" 0x%x", (unsigned)rx->at(j));
+			}
+			printf("\r\n");
+
+
 			throw TimeoutE();
+		}
 	}
 
 	uint8_t *data = rx->data();
