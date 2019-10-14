@@ -118,7 +118,7 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	ln_rcv = rx_buf;
 	ln_rcv += 12;
 
-	printf("serial::receiveUmb.ln_rcv: 0x%x", ln_rcv);
+	printf("serial::receiveUmb.ln_rcv: 0x%x\r\n", ln_rcv);
 
 	for (; pos <= ln_rcv; pos++) {
 		gettimeofday(&timeout, NULL);
