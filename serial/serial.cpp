@@ -118,6 +118,8 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	ln_rcv = rx_buf;
 	ln_rcv += 12;
 
+	printf("serial::receiveUmb.ln_rcv: 0x%x", ln_rcv);
+
 	for (; pos <= ln_rcv; pos++) {
 		gettimeofday(&timeout, NULL);
 		if (timeout.tv_sec - timeout_start.tv_sec > ProgramConfig::getTimeout()) {
@@ -144,6 +146,11 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 			throw TimeoutE();
 		}
 	}
+
+	for (unsigned j = 0; j < rx->size(); j++) {
+		printf(" 0x%x", (unsigned)rx->at(j));
+	}
+	printf("\r\n");
 
 	uint8_t *data = rx->data();
 
