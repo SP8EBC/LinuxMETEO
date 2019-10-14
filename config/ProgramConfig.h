@@ -8,6 +8,8 @@
 #ifndef CONFIG_PROGRAMCONFIG_H_
 #define CONFIG_PROGRAMCONFIG_H_
 
+#define TIMEOUT_SECS 5
+
 #include <string>
 #include <vector>
 
@@ -27,6 +29,8 @@ private:
 	static int masterId;
 
 	static vector<UmbDevice> devices;
+
+	static unsigned char timeout;
 
 
 public:
@@ -49,6 +53,8 @@ public:
 
 	static vector<UmbDevice>* getDevices();
 	void setDevices(const vector<UmbDevice>& devices);
+
+	static unsigned char getTimeout();
 };
 
 #endif /* CONFIG_PROGRAMCONFIG_H_ */

@@ -12,6 +12,7 @@
 #include "../aprs/PacketWx.h"
 #include "../aprs/Call.h"
 #include "../exceptions/TimeoutE.h"
+#include "../exceptions/StartOfHeaderTimeoutEx.h"
 
 #include <vector>
 #include <iostream>
@@ -64,6 +65,10 @@ void UmbThread::serviceThread(void)
 			}
 			catch (TimeoutE &ex) {
 				printf("Timeout exception has been thrown during comm\r\n");
+				return;
+			}
+			catch (StartOfHeaderTimeoutEx & ex) {
+				printf("Timeout exception has been thrown while waiting for SOH\r\n");
 				return;
 			}
 

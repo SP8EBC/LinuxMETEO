@@ -6,6 +6,8 @@
 CPP_SRCS += \
 ../exceptions/NullPointerE.cpp \
 ../exceptions/NullPointerE_test.cpp \
+../exceptions/StartOfHeaderTimeoutEx.cpp \
+../exceptions/StartOfHeaderTimeoutEx_test.cpp \
 ../exceptions/TimeoutE.cpp \
 ../exceptions/TimeoutE_test.cpp \
 ../exceptions/UsageParseError.cpp 
@@ -13,6 +15,8 @@ CPP_SRCS += \
 OBJS += \
 ./exceptions/NullPointerE.o \
 ./exceptions/NullPointerE_test.o \
+./exceptions/StartOfHeaderTimeoutEx.o \
+./exceptions/StartOfHeaderTimeoutEx_test.o \
 ./exceptions/TimeoutE.o \
 ./exceptions/TimeoutE_test.o \
 ./exceptions/UsageParseError.o 
@@ -20,6 +24,8 @@ OBJS += \
 CPP_DEPS += \
 ./exceptions/NullPointerE.d \
 ./exceptions/NullPointerE_test.d \
+./exceptions/StartOfHeaderTimeoutEx.d \
+./exceptions/StartOfHeaderTimeoutEx_test.d \
 ./exceptions/TimeoutE.d \
 ./exceptions/TimeoutE_test.d \
 ./exceptions/UsageParseError.d 

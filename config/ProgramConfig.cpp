@@ -24,6 +24,7 @@ string ProgramConfig::outputAprxFile;
 unsigned char ProgramConfig::devicesNumber;
 int ProgramConfig::masterId;
 vector<UmbDevice> ProgramConfig::devices;
+unsigned char ProgramConfig::timeout = TIMEOUT_SECS;
 
 using namespace libconfig;
 
@@ -254,4 +255,8 @@ int ProgramConfig::readConfigFromFile() {
 
 	return 0;
 #endif
+}
+
+unsigned char ProgramConfig::getTimeout() {
+	return ProgramConfig::timeout;
 }

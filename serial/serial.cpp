@@ -15,6 +15,7 @@
 
 #include "../exceptions/NullPointerE.h"
 #include "../exceptions/TimeoutE.h"
+#include "../exceptions/StartOfHeaderTimeoutEx.h"
 
 #include "../config/ProgramConfig.h"
 
@@ -84,8 +85,8 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	gettimeofday(&timeout_start, NULL);
 	do {
 		gettimeofday(&timeout, NULL);
-		if (timeout.tv_sec - timeout_start.tv_sec > 2)
-			break;		//TODO: zrobić rzucanie wyjątku
+		if (timeout.tv_sec - timeout_start.tv_sec > ProgramConfig::getTimeout())
+			throw StartOfHeaderTimeoutEx();		//TODO: zrobić rzucanie wyjątku
 
 		n = read(handle, &rx_buf, 1);
 	}while(rx_buf != SOH);
@@ -96,7 +97,7 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 	for (; pos <= 7; pos++)
 	{
 		gettimeofday(&timeout, NULL);
-		if (timeout.tv_sec - timeout_start.tv_sec > 2)
+		if (timeout.tv_sec - timeout_start.tv_sec > ProgramConfig::getTimeout())
 			throw TimeoutE();		//TODO: zrobić rzucanie wyjątku
 
 		n = read(handle, &rx_buf, 1);
@@ -111,7 +112,7 @@ UmbFrameRaw* serial::receiveUmb(unsigned short max_timeout) {
 
 	for (; pos <= ln_rcv; pos++) {
 		gettimeofday(&timeout, NULL);
-		if (timeout.tv_sec - timeout_start.tv_sec > 2)
+		if (timeout.tv_sec - timeout_start.tv_sec > ProgramConfig::getTimeout())
 			throw TimeoutE();		//TODO: zrobić rzucanie wyjątku
 
 		n = read(handle, &rx_buf, 1);
