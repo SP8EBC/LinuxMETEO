@@ -11,6 +11,7 @@
 #include "../aprs/Mappings.h"
 #include "../aprs/PacketWx.h"
 #include "../aprs/Call.h"
+#include "../exceptions/TimeoutE.h"
 
 #include <vector>
 #include <iostream>
@@ -58,11 +59,11 @@ void UmbThread::serviceThread(void)
 					Mappings::usageValuesMapping[use] = val;
 				}
 
-				printf("kanal: %d, wartosc: %s\r\n", chnum, val->toString().c_str());
+				printf("channel: %d, value: %s\r\n", chnum, val->toString().c_str());
 
 			}
-			catch (...) {
-				printf("wyjatek przy komunikacji po RS\r\n");
+			catch (TimeoutE &ex) {
+				printf("Timeout exception has been thrown during comm\r\n");
 				return;
 			}
 

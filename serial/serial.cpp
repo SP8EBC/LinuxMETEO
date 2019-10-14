@@ -64,6 +64,11 @@ void serial::transmitUmb(UmbFrameRaw* in) {
 	txbuffer[i++] = (crc & 0xFF00) >> 8;
 	txbuffer[i++] = EOT;
 
+	printf("serial::transmitUmb.txbuffer:");
+	for (int j = 0; i < in->ln + 15; i++)
+		printf(" 0x%x", txbuffer[j]);
+	printf("\r\n");
+
 	write(handle, txbuffer, i);
 }
 
